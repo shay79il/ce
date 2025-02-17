@@ -2,11 +2,11 @@ apiVersion: v1
 entries:
   mlrun-ce:
   - apiVersion: v1
-    created: "2025-02-16T09:00:54.07810679Z"
+    created: "2025-02-17T08:56:05.896101084Z"
     dependencies:
     - name: nuclio
       repository: https://nuclio.github.io/nuclio/charts
-      version: 0.19.16
+      version: 0.19.18
     - condition: mlrun.enabled
       name: mlrun
       repository: https://v3io.github.io/helm-charts/stable
@@ -27,7 +27,7 @@ entries:
       repository: https://prometheus-community.github.io/helm-charts
       version: 41.7.2
     description: MLRun Open Source Stack
-    digest: bc8ec319c1372a2674a7e46bffe3c1f03df5c50ee8e50ac3152a167b5bb5f956
+    digest: aa6881ad2a04297a1fe92ff2696727e4ed7b4c5ff8c1d21617d1bd1508e76bd3
     home: https://iguazio.com
     icon: https://www.iguazio.com/wp-content/uploads/2019/10/Iguazio-Logo.png
     maintainers:
@@ -36,6 +36,6 @@ entries:
       url: https://www.mlrun.org/
     name: mlrun-ce
     urls:
-    - https://github.com/shay79il/ce/releases/download/mlrun-ce-0.8.0-rc1/mlrun-ce-0.8.0-rc1.tgz
-    version: 0.8.0-rc1
-generated: "2025-02-16T09:00:53.836004352Z"
+    - https://github.com/shay79il/ce/releases/download/mlrun-ce-0.8.0-rc3/mlrun-ce-0.8.0-rc3.tgz
+    version: 0.8.0-rc3
+generated: "2025-02-17T08:56:05.687481818Z"
