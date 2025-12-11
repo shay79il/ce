@@ -1,0 +1,74 @@
+name: Trigger Private Deployment
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: 'MLRun CE Chart version (e.g. 0.9.2)'
+        required: true
+        type: string
+    secrets:
+      GH_APP_ID:
+        required: true
+      GH_APP_PRIVATE_KEY:
+        required: true
+      DEPLOYMENT_REPO:
+        required: true
+      SYSTEM_ID:
+        required: true
+
+permissions: {}
+
+jobs:
+  trigger-deployment:
+    name: Trigger Deployment in Private Repo
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolve target repository
+        id: repo-info
+        run: |
+          DEPLOYMENT_REPO="${{ secrets.DEPLOYMENT_REPO }}"
+
+          if [[ "$DEPLOYMENT_REPO" != */* ]]; then
+            echo "::error::DEPLOYMENT_REPO must be in the form owner/repo."
+            exit 1
+          fi
+
+          OWNER="${DEPLOYMENT_REPO%%/*}"
+          REPO="${DEPLOYMENT_REPO#*/}"
+
+          echo "owner=$OWNER" >> $GITHUB_OUTPUT
+          echo "repo=$REPO" >> $GITHUB_OUTPUT
+          echo "full_name=$DEPLOYMENT_REPO" >> $GITHUB_OUTPUT
+
+      - name: Generate GitHub App Token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.GH_APP_ID }}
+          private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+          owner: ${{ steps.repo-info.outputs.owner }}
+          repositories: ${{ steps.repo-info.outputs.repo }}
+
+      - name: Send Repository Dispatch to Private Deployment Repo
+        run: |
+          DEPLOYMENT_REPO="${{ steps.repo-info.outputs.full_name }}"
+          curl -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: token ${{ steps.app-token.outputs.token }}" \
+            https://api.github.com/repos/${DEPLOYMENT_REPO}/dispatches \
+            -d "$(jq -n \
+              --arg version "${{ inputs.version }}" \
+              --arg system_id "${{ secrets.SYSTEM_ID }}" \
+              '{
+                event_type: "deploy-ce-onprem",
+                client_payload: {
+                  version: $version,
+                  system_id: $system_id,
+                  run_naipi: true,
+                  source_repo: "ce",
+                  triggered_by: "${{ github.actor }}"
+                }
+              }')"
+          
+          echo "Deployment triggered in private repository"
