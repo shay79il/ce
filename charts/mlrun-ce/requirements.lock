@@ -17,8 +17,8 @@ dependencies:
 - name: kube-prometheus-stack
   repository: https://prometheus-community.github.io/helm-charts
   version: 72.1.1
-- name: kafka
-  repository: https://charts.bitnami.com/bitnami
-  version: 31.3.1
-digest: sha256:d92e2702f26b3fbbe527fd4439cec8ce50bc79ad54fc69e10c28301e04e0114a
-generated: "2025-11-04T09:39:37.92185Z"
+- name: strimzi-kafka-operator
+  repository: https://strimzi.io/charts/
+  version: 0.48.0
+digest: sha256:f45be2a1208958d753b2e8a95f33eee17718ad1e691317ec0b50e3c088a7cae8
+generated: "2026-02-03T14:08:48.606883+02:00"
