@@ -248,6 +248,47 @@ entries:
     - https://github.com/shay79il/ce/releases/download/mlrun-ce-0.11.0-rc3/mlrun-ce-0.11.0-rc3.tgz
     version: 0.11.0-rc3
   - apiVersion: v1
+    created: "2026-03-17T17:27:32.088775693Z"
+    dependencies:
+    - name: nuclio
+      repository: https://nuclio.github.io/nuclio/charts
+      version: 0.21.9
+    - condition: mlrun.enabled
+      name: mlrun
+      repository: https://v3io.github.io/helm-charts/stable
+      version: 0.11.18
+    - name: mpi-operator
+      repository: https://v3io.github.io/helm-charts/stable
+      version: 0.6.0
+    - condition: seaweedfs.enabled
+      name: seaweedfs
+      repository: https://seaweedfs.github.io/seaweedfs/helm
+      version: 4.0.407
+    - condition: spark-operator.enabled
+      name: spark-operator
+      repository: https://kubeflow.github.io/spark-operator
+      version: 2.1.0
+    - condition: kube-prometheus-stack.enabled
+      name: kube-prometheus-stack
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 72.1.1
+    - condition: strimzi-kafka-operator.enabled
+      name: strimzi-kafka-operator
+      repository: https://strimzi.io/charts/
+      version: 0.48.0
+    description: MLRun Open Source Stack
+    digest: 482f9f27c67be0f7876aa27adc407111d4541f118b03e73b51ac2763066f5dca
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2019/10/Iguazio-Logo.png
+    maintainers:
+    - email: mlrun@iguazio.com
+      name: MLRun
+      url: https://www.mlrun.org/
+    name: mlrun-ce
+    urls:
+    - https://github.com/shay79il/ce/releases/download/mlrun-ce-0.11.0-rc.24/mlrun-ce-0.11.0-rc.24.tgz
+    version: 0.11.0-rc.24
+  - apiVersion: v1
     created: "2026-03-17T17:24:55.767457807Z"
     dependencies:
     - name: nuclio
@@ -1387,4 +1428,4 @@ entries:
     urls:
     - https://github.com/shay79il/ce/releases/download/mlrun-ce-0.8.0-rc11/mlrun-ce-0.8.0-rc11.tgz
     version: 0.8.0-rc11
-generated: "2026-03-17T17:24:55.767887622Z"
+generated: "2026-03-17T17:27:32.089076943Z"
