@@ -4,3 +4,10 @@ charts/mlrun-ce/charts/*
 **/.DS_Store
 *.DS_Store
 **/__pycache__
+
+# Local secrets and configuration - NEVER commit
+.env
+*.env
+
+# Auto-generated NodePort override files (per-namespace)
+install/custom-ports-*.yaml
