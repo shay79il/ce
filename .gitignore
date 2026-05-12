@@ -8,3 +8,6 @@ charts/mlrun-ce/charts/*
 charts/mlrun-ce/mlrun-ce-*.tgz
 # MLRun project directories created by test scripts
 otlp-pro/
+
+# Claude Code local settings (machine-specific, not for commit)
+.claude/settings.local.json
