@@ -644,6 +644,10 @@ timescaledb:
     username: postgres
     password: postgres
     database: postgres
+  startupProbe:
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 30  # 30 × 10 s = 5-min window for initdb on slow storage
   persistence:
     enabled: true
     size: "10Gi"
