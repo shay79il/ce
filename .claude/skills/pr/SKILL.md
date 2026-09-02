@@ -1,11 +1,72 @@
 ---
 name: pr
-description: Analyze branch changes and generate a fully filled PR description ready to paste into GitHub
+description: Analyze branch changes and generate a fully filled PR description ready to paste into GitHub. Also applies mlrun-ce reviewer guardrails learned from past PR reviews.
 allowed-tools: Bash(git diff*) Bash(git log*)
 disable-model-invocation: false
 ---
 
 Analyze the current branch changes and generate a fully filled PR description ready to paste into GitHub.
+
+Before writing the PR description, run the **Reviewer guardrails** checklist below against the diff.
+
+If the diff violates any guardrail, flag it in **Warnings** and suggest a fix — do not silently omit it.
+
+## Reviewer guardrails (learned from past mlrun-ce PR reviews)
+
+Apply these when **authoring changes** and when **preparing or reviewing a PR**.
+
+They are general patterns — not a checklist of one-off fixes.
+
+### 1. Examples and documentation
+
+- **Keep example files small.**
+
+  If an example overlay, values snippet, or config file needs long comments, deploy commands, or auth walkthroughs, move that prose to a **README next to the examples** (e.g. `charts/mlrun-ce/examples/README.md`).
+
+  The example file itself should stay values/config only.
+
+- **Document non-default paths, not defaults.**
+
+  If behaviour is already the chart default, it belongs in `values.yaml` — not in a separate example or README section.
+
+### 2. Optional Helm values
+
+- **Expose overridable settings in `values.yaml`** when users may need to change them (ports, endpoints, feature flags).
+
+- **Apply defaults in `_helpers.tpl`** (via `default` / `coalesce`), not by repeating literals across templates.
+
+  One helper, one default — templates call the helper.
+
+- **Intentionally unset is valid.**
+
+  Some optional values should stay empty in `values.yaml` so the user must choose (e.g. a `provider` enum). Validation/templates should `required` or `fail` when enabled without a choice — do not silently pick a default in `values.yaml`.
+
+### 3. `_helpers.tpl` hygiene
+
+- **Avoid define blocks that only forward to a single value or another helper.**
+
+  Call the underlying helper or value directly from templates.
+
+  Add a helper only when it combines logic, computes a default, or is reused in multiple places.
+
+- **Same rule for hardcoded one-liners** — inline obvious constants in templates rather than wrapping them in a define.
+
+### General (still worth flagging)
+
+- **Scope:** unrelated component changes in a feature PR → call out in Warnings.
+- **Coupled version bumps:** when one image/tag in a component set changes, check whether siblings need the same bump.
+- **Install-mode values:** new defaults or `enabled` flags that affect installation → all four values files (`values.yaml` + three install-mode overlays).
+- **`requirements.yaml` changed** → remind to run `make helm-update-dependencies` and commit `requirements.lock`.
+
+### Pre-submit scan
+
+| Signal in diff | Suggest |
+| --- | --- |
+| Example file with large comment blocks | README beside examples |
+| Same literal repeated in multiple templates | Value in `values.yaml`, default in `_helpers.tpl` |
+| New `define` that only wraps one call or value | Remove; use direct reference |
+| Example that only restates default install | Drop example; keep default in `values.yaml` |
+| Unrelated area changed | Flag scope creep |
 
 ## Steps
 
@@ -104,5 +165,3 @@ Output exactly this structure with real content (no placeholder text):
 Then replace each `[ ]` with `[x]` on items you can confirm from the diff, following the rules above.
 
 After outputting the filled template, add a short **"Warnings"** section (outside the template) listing anything that needs human attention before opening the PR (missing version bump, unsynced values files, potential breaking changes, etc.).
-
-Between every sentence that ends with a `.` add two new lines to make it more readable.
