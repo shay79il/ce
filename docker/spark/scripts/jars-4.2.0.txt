@@ -1,0 +1,8 @@
+https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.5.0/hadoop-aws-3.5.0.jar
+https://repo1.maven.org/maven2/software/amazon/s3/analyticsaccelerator/analyticsaccelerator-s3/1.3.1/analyticsaccelerator-s3-1.3.1.jar
+https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-azure/3.5.0/hadoop-azure-3.5.0.jar
+https://repo1.maven.org/maven2/software/amazon/awssdk/bundle/2.35.4/bundle-2.35.4.jar
+https://repo1.maven.org/maven2/org/wildfly/openssl/wildfly-openssl/2.2.5.Final/wildfly-openssl-2.2.5.Final.jar
+https://repo1.maven.org/maven2/com/microsoft/azure/azure-storage/7.0.1/azure-storage-7.0.1.jar
+https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-gcp/3.5.0/hadoop-gcp-3.5.0.jar
+https://repo1.maven.org/maven2/com/google/cloud/spark/spark-bigquery-with-dependencies_2.13/0.45.0/spark-bigquery-with-dependencies_2.13-0.45.0.jar
